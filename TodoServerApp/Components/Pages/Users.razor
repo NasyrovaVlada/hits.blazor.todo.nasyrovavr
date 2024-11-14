@@ -1,0 +1,49 @@
+﻿@page "/users"
+@rendermode InteractiveServer
+@inject IDataServiceUser data
+@attribute [Authorize]
+
+<PageTitle>Пользователи</PageTitle>
+
+<h1>Список пользователей</h1>
+
+<table class=" table table-bordered">
+    <thead>
+        <tr>
+            <th>ИД</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (users == null)
+        {
+            <tr>
+                <td colspan="5">Loading...</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Surname</td>
+                    <td>@user.Name</td>
+                    <td>@user.Patronymic</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@code
+{
+    IEnumerable<UserElement>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        users = await data.GetUserElementsAsync();
+    }
+}

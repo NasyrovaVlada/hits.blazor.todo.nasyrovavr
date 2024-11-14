@@ -32,4 +32,19 @@ namespace TodoServerApp.Data.Services
             throw new NotImplementedException();
         }
     }
+    public class MemoryDataServiceUser : IDataServiceUser
+    {
+        private static IEnumerable<UserElement> Users { get; } =
+        [
+            new () { Id=1, Surname = "Елена", Name = "Кристина", Patronymic = "Лебедь"},
+            new () { Id=2, Surname = "бе", Name = "бебе", Patronymic = "бебебе"},
+            new () { Id=3, Surname = "Иван", Name = "Иван", Patronymic = "Иван"},
+        ];
+        public Task<IEnumerable<UserElement>> GetUserElementsAsync()
+        {
+            return Task.FromResult(Users);
+        }
+    }
+
+
 }

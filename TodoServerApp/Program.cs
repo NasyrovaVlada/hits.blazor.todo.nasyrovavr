@@ -36,6 +36,11 @@ namespace TodoServerApp
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+            var userDataConnectionString = builder.Configuration.GetConnectionString("UserDataConnection") ?? throw new InvalidOperationException("Connection string 'UserDataConnection' not found.");
+            builder.Services.AddDbContext<UserDataDbContext>(options =>
+                options.UseSqlServer(userDataConnectionString));
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
             builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddSignInManager()
@@ -43,6 +48,7 @@ namespace TodoServerApp
 
             builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
             builder.Services.AddScoped<IDataService, MSSQLDataService>();
+            builder.Services.AddScoped<IDataServiceUser, MSSQLDataServiceUser>();
 
             var app = builder.Build();
 

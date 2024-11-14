@@ -19,4 +19,22 @@ namespace TodoServerApp.Data
             ]);
         }
     }
+
+    public class UserDataDbContext : DbContext
+    {
+        public UserDataDbContext(DbContextOptions<UserDataDbContext> options) : base(options) { }
+
+        public DbSet<UserElement> UserElements { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<UserElement>().HasData(
+                new UserElement { Id = 1, Surname = "Елена", Name = "Кристина", Patronymic = "Лебедь" },
+                new UserElement { Id = 2, Surname = "бе", Name = "бебе", Patronymic = "бебебе" },
+                new UserElement { Id = 3, Surname = "Борис", Name = "Борис", Patronymic = "Борис" }
+            );
+        }
+    }
 }

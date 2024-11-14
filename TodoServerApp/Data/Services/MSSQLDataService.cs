@@ -37,4 +37,12 @@ namespace TodoServerApp.Data.Services
             await context.SaveChangesAsync();
         }
     }
+
+    public class MSSQLDataServiceUser(UserDataDbContext context) : IDataServiceUser
+    {
+        public async Task<IEnumerable<UserElement>> GetUserElementsAsync()
+        {
+            return await context.UserElements.ToArrayAsync();
+        }
+    }
 }
